@@ -1,3 +1,72 @@
+.search-container {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--ion-color-light);
+  border-bottom: 1px solid var(--ion-color-light-shade);
+}
+
+/* 自定义搜索栏样式 - 方形 */
+.custom-searchbar {
+  flex: 1;
+  padding: 0;
+  margin-right: 8px;
+  background: var(--ion-color-light);
+  border: 2px solid var(--ion-color-primary);
+  border-radius: 0; /* 方形设计 */
+  box-shadow: none; /* 移除阴影 */
+
+  .searchbar-input-container {
+    border-radius: 0; /* 方形设计 */
+  }
+
+  .searchbar-input {
+    padding-left: 16px;
+    padding-right: 16px;
+    background: var(--ion-color-light);
+  }
+}
+
+/* 搜索按钮样式 */
+.search-button {
+  --border-radius: 24px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --background: var(--ion-color-primary);
+  --background-activated: var(--ion-color-primary-shade);
+  --background-focused: var(--ion-color-primary-shade);
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  height: 48px;
+  width: 48px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ion-color-medium);
+  
+  ion-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: var(--ion-color-medium-shade);
+  }
+  
+  h3 {
+    font-size: 1.2rem;
+    color: var(--ion-color-dark);
+    margin-bottom: 8px;
+  }
+  
+  p {
+    margin-bottom: 16px;
+  }
+  
+  ion-button {
+    --color: var(--ion-color-primary);
+  }
+}
+
 /* 基础列表样式 */
 ion-list {
   background: transparent;

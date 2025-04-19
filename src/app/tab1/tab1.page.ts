@@ -82,16 +82,34 @@ export class Tab1Page implements OnInit {
     this.categoryGroups.forEach(group => group.collapsed = false);
   }
 
-  searchItems() {
-    if (!this.searchTerm) {
+  onSearchChange() {
+    if (!this.searchTerm || this.searchTerm.trim() === '') {
       this.filteredItems = [...this.allItems];
-    } else {
-      this.filteredItems = this.allItems.filter(item => 
-        item.item_name.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
+      this.groupItemsByCategory();
     }
+  }
+  
+  clearSearch() {
+	this.searchTerm = '';
+	this.filteredItems = [...this.allItems];
+	this.groupItemsByCategory();
+  }
+
+  searchItems() {
+  if (!this.searchTerm || this.searchTerm.trim() === '') {
+    this.filteredItems = [...this.allItems];
+  } else {
+    this.filteredItems = this.allItems.filter(item => 
+      item.item_name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+    if (this.filteredItems.length === 0) {
+      this.categoryGroups = [];
+    }
+  }
+  if (this.filteredItems.length > 0) {
     this.groupItemsByCategory();
   }
+}
 
   refreshItems(event: any) {
     this.loadItems().then(() => {
