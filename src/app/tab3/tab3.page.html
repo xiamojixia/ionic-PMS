@@ -1,17 +1,56 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
+    <ion-title>Art Gallery Manager</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <!-- 操作表单 -->
+  <ion-item>
+    <ion-input
+      label="Item Name"
+      [(ngModel)]="itemName"
+      placeholder="Enter item name"
+    ></ion-input>
+  </ion-item>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ion-item>
+    <ion-input
+      label="Price"
+      type="number"
+      [(ngModel)]="itemData.price"
+    ></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input
+      label="Quantity"
+      type="number"
+      [(ngModel)]="itemData.quantity"
+    ></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-textarea
+      label="Description"
+      [(ngModel)]="itemData.description"
+    ></ion-textarea>
+  </ion-item>
+
+  <!-- 操作按钮 -->
+  <ion-button expand="block" (click)="getAllItems()">Get All Items</ion-button>
+  <ion-button expand="block" (click)="getItem()">Get Item</ion-button>
+  <ion-button expand="block" (click)="createItem()">Create Item</ion-button>
+  <ion-button expand="block" (click)="updateItem()">Update Item</ion-button>
+  <ion-button expand="block" color="danger" (click)="deleteItem()">Delete Item</ion-button>
+
+  <!-- 响应展示 -->
+  <ion-card *ngIf="apiResponse">
+    <ion-card-header>
+      API Response
+    </ion-card-header>
+    <ion-card-content>
+      <pre>{{ apiResponse | json }}</pre>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
