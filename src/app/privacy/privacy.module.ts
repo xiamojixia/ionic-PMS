@@ -2,10 +2,10 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HelpPage } from './help.page';
+import { PrivacyPage } from './privacy.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { HelpPageRoutingModule } from './help-routing.module';
+import { PrivacyPageRoutingModule } from './privacy-routing.module';
 
 @NgModule({
   imports: [
@@ -13,8 +13,8 @@ import { HelpPageRoutingModule } from './help-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    HelpPageRoutingModule
+    PrivacyPageRoutingModule
   ],
-  declarations: [HelpPage]
+  declarations: [PrivacyPage]
 })
-export class HelpPageModule {}
+export class PrivacyPageModule {}
