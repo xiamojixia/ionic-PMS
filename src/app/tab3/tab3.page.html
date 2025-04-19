@@ -1,56 +1,124 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Art Gallery Manager</ion-title>
+    <ion-title>库存管理系统</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="loadInventory()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- 操作表单 -->
-  <ion-item>
-    <ion-input
-      label="Item Name"
-      [(ngModel)]="itemName"
-      placeholder="Enter item name"
-    ></ion-input>
-  </ion-item>
+  <!-- 可编辑列表 -->
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of inventoryList">
+      <!-- 列表项 -->
+      <ion-item (click)="startEdit(item)">
+        <div slot="start" class="edit-indicator" *ngIf="editingItem?.item_id === item.item_id">
+          <ion-icon name="pencil"></ion-icon>
+        </div>
+        <ion-label>
+          <h2>{{ item.item_name }}</h2>
+          <p>分类: {{ item.category }} | 库存: {{ item.quantity }}</p>
+          <p>价格: ${{ item.price }} | 状态: {{ item.stock_status }}</p>
+          <p *ngIf="item.special_note">备注: {{ item.special_note }}</p>
+        </ion-label>
+        <ion-badge slot="end" color="success" *ngIf="item.featured_item === 1">
+          推荐
+        </ion-badge>
+      </ion-item>
 
-  <ion-item>
-    <ion-input
-      label="Price"
-      type="number"
-      [(ngModel)]="itemData.price"
-    ></ion-input>
-  </ion-item>
+      <!-- 编辑面板 -->
+      <ion-item-options side="end">
+        <ion-item-option color="primary" (click)="startEdit(item)">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="danger" (click)="deleteItem(item)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 
-  <ion-item>
-    <ion-input
-      label="Quantity"
-      type="number"
-      [(ngModel)]="itemData.quantity"
-    ></ion-input>
-  </ion-item>
+  <!-- 编辑模态框 -->
+  <ion-modal [isOpen]="!!editingItem" (ionModalDidDismiss)="cancelEdit()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>编辑 {{ editingItem?.item_name }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cancelEdit()">关闭</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
 
-  <ion-item>
-    <ion-textarea
-      label="Description"
-      [(ngModel)]="itemData.description"
-    ></ion-textarea>
-  </ion-item>
+      <ion-content class="ion-padding">
+        <ion-list *ngIf="editingItem">
+          <ion-item>
+            <ion-input
+              label="项目名称"
+              [(ngModel)]="editingItem.item_name"
+              required
+            ></ion-input>
+          </ion-item>
 
-  <!-- 操作按钮 -->
-  <ion-button expand="block" (click)="getAllItems()">Get All Items</ion-button>
-  <ion-button expand="block" (click)="getItem()">Get Item</ion-button>
-  <ion-button expand="block" (click)="createItem()">Create Item</ion-button>
-  <ion-button expand="block" (click)="updateItem()">Update Item</ion-button>
-  <ion-button expand="block" color="danger" (click)="deleteItem()">Delete Item</ion-button>
+          <ion-item>
+            <ion-select
+              label="分类"
+              [(ngModel)]="editingItem.category"
+              interface="action-sheet"
+            >
+              <ion-select-option *ngFor="let cat of categories" [value]="cat">
+                {{ cat }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
 
-  <!-- 响应展示 -->
-  <ion-card *ngIf="apiResponse">
-    <ion-card-header>
-      API Response
-    </ion-card-header>
-    <ion-card-content>
-      <pre>{{ apiResponse | json }}</pre>
-    </ion-card-content>
-  </ion-card>
+          <ion-item>
+            <ion-input
+              type="number"
+              label="库存数量"
+              [(ngModel)]="editingItem.quantity"
+              min="0"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-input
+              type="number"
+              label="价格"
+              [(ngModel)]="editingItem.price"
+              min="0"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-select
+              label="库存状态"
+              [(ngModel)]="editingItem.stock_status"
+            >
+              <ion-select-option *ngFor="let status of stockStatusOptions" [value]="status">
+                {{ status }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-textarea
+              label="特别备注"
+              [(ngModel)]="editingItem.special_note"
+            ></ion-textarea>
+          </ion-item>
+
+          <ion-button
+            expand="block"
+            color="primary"
+            (click)="saveChanges()">
+            保存修改
+          </ion-button>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

@@ -1,9 +1,20 @@
-// tab3.page.ts
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AlertController } from '@ionic/angular';
 
 const API_ENDPOINT = 'https://prog2005.it.scu.edu.au/ArtGalley';
+
+interface InventoryItem {
+  item_id: number;
+  item_name: string;
+  category: string;
+  quantity: number;
+  price: number;
+  supplier_name: string;
+  stock_status: string;
+  featured_item: number;
+  special_note: string;
+}
 
 @Component({
   selector: 'app-tab3',
@@ -12,103 +23,110 @@ const API_ENDPOINT = 'https://prog2005.it.scu.edu.au/ArtGalley';
   standalone: false,
 })
 export class Tab3Page {
-  itemName = '';
-  itemData = {
-    price: 0,
-    quantity: 0,
-    description: ''
-  };
-  apiResponse: any;
+  inventoryList: InventoryItem[] = [];
+  editingItem: InventoryItem | null = null;
+  originalItem: InventoryItem | null = null;
+  categories = ['Electronics', 'Furniture', 'Tools'];
+  stockStatusOptions = ['In stock', 'Out of stock', 'Low stock'];
 
   constructor(
     private http: HttpClient,
     private alertController: AlertController
-  ) {}
+  ) {
+    this.loadInventory();
+  }
 
-  // 获取所有项目
-  async getAllItems() {
+  async loadInventory() {
     try {
-      this.apiResponse = await this.http.get(API_ENDPOINT).toPromise();
-      this.showAlert('Success', 'Data loaded successfully');
+      this.inventoryList = await this.http.get<InventoryItem[]>(API_ENDPOINT).toPromise() || [];
     } catch (error) {
       this.handleError(error);
     }
   }
 
-  // 获取单个项目
-  async getItem() {
-    if (!this.itemName) return;
-
-    try {
-      this.apiResponse = await this.http.get(`${API_ENDPOINT}/${this.itemName}`).toPromise();
-      this.showAlert('Success', 'Item found');
-    } catch (error) {
-      this.handleError(error);
-    }
+  startEdit(item: InventoryItem) {
+    this.editingItem = { ...item };
+    this.originalItem = item;
   }
 
-  // 创建新项目
-  async createItem() {
-    try {
-      const response = await this.http.post(API_ENDPOINT, this.itemData).toPromise();
-      this.apiResponse = response;
-      this.showAlert('Success', 'Item created');
-      this.clearForm();
-    } catch (error) {
-      this.handleError(error);
-    }
+  cancelEdit() {
+    this.editingItem = null;
+    this.originalItem = null;
   }
 
-  // 更新项目
-  async updateItem() {
-    if (!this.itemName) return;
+  async saveChanges() {
+    if (!this.validateForm()) return;
 
     try {
-      const response = await this.http.put(
-        `${API_ENDPOINT}/${this.itemName}`,
-        this.itemData
+      await this.http.put(
+        `${API_ENDPOINT}/${this.originalItem?.item_name}`,
+        this.editingItem
       ).toPromise();
-      this.apiResponse = response;
-      this.showAlert('Success', 'Item updated');
+
+      Object.assign(this.originalItem!, this.editingItem);
+      this.showAlert('成功', '更新成功');
+      this.cancelEdit();
     } catch (error) {
       this.handleError(error);
     }
   }
 
-  // 删除项目
-  async deleteItem() {
-    if (!this.itemName) return;
+  async deleteItem(item: InventoryItem) {
+    if (item.item_name.toLowerCase() === 'laptop') {
+      this.showAlert('错误', '无法删除 Laptop');
+      return;
+    }
 
+    const confirm = await this.alertController.create({
+      header: '确认删除',
+      message: `确定要删除 ${item.item_name} 吗？`,
+      buttons: [
+        { text: '取消', role: 'cancel' },
+        { text: '删除', handler: () => this.confirmDelete(item) }
+      ]
+    });
+    await confirm.present();
+  }
+
+  private async confirmDelete(item: InventoryItem) {
     try {
-      const response = await this.http.delete(`${API_ENDPOINT}/${this.itemName}`).toPromise();
-      this.apiResponse = response;
-      this.showAlert('Success', 'Item deleted');
-      this.itemName = '';
+      await this.http.delete(`${API_ENDPOINT}/${item.item_name}`).toPromise();
+      this.inventoryList = this.inventoryList.filter(i => i.item_id !== item.item_id);
+      this.showAlert('成功', '删除成功');
     } catch (error) {
       this.handleError(error);
     }
+  }
+
+  private validateForm(): boolean {
+    if (!this.editingItem) return false;
+
+    const errors = [];
+
+    if (!this.editingItem.item_name) errors.push('项目名称必填');
+    if (this.editingItem.quantity < 0) errors.push('库存不能为负数');
+    if (this.editingItem.price < 0) errors.push('价格不能为负数');
+    if (!this.categories.includes(this.editingItem.category)) errors.push('请选择有效分类');
+
+    if (errors.length > 0) {
+      this.showAlert('表单错误', errors.join('\n'));
+      return false;
+    }
+    return true;
   }
 
   private async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header,
       message,
-      buttons: ['OK']
+      buttons: ['确定']
     });
     await alert.present();
   }
 
   private handleError(error: any) {
     console.error(error);
-    const message = error.error?.message || error.message;
-    this.showAlert('Error', message || 'Unknown error occurred');
-  }
-
-  private clearForm() {
-    this.itemData = {
-      price: 0,
-      quantity: 0,
-      description: ''
-    };
+    const message = error.error?.message || error.message || '系统错误';
+    this.showAlert('错误', message);
   }
 }
