@@ -4,20 +4,44 @@ ion-list {
   padding: 0;
 }
 
+/* 分类标题样式 */
+ion-item-divider {
+  --background: var(--ion-color-light);
+  --color: var(--ion-color-dark);
+  --padding-start: 12px;
+  font-weight: 600;
+  min-height: 48px;
+  cursor: pointer;
+  
+  ion-icon {
+    color: var(--ion-color-primary);
+    font-size: 1.2rem;
+    margin-right: 8px;
+  }
+  
+  ion-badge {
+    margin-left: 8px;
+    font-weight: 500;
+  }
+}
+
+/* 可折叠内容区域 */
+.collapsed {
+  display: none;
+}
+
 /* 列表项样式 */
 ion-item {
-  --padding-start: 12px;
-  --padding-end: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
   --inner-padding-end: 8px;
-  --min-height: 80px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  background: var(--ion-item-background, var(--ion-background-color, #fff));
+  --min-height: 88px;
+  margin-bottom: 4px;
+  border-left: 4px solid var(--ion-color-primary);
   
   /* 选中状态 */
   &:active {
-    background: rgba(var(--ion-color-primary-rgb), 0.08);
+    --background: rgba(var(--ion-color-primary-rgb), 0.08);
   }
 }
 
@@ -26,7 +50,7 @@ ion-label {
   margin-top: 12px;
   margin-bottom: 12px;
   
-  /* 标题区域 - 特别突出ID */
+  /* 标题区域 */
   h2 {
     font-size: 1.1rem;
     font-weight: 600;
@@ -34,17 +58,11 @@ ion-label {
     display: flex;
     align-items: center;
     
-    /* ID样式 - 特别突出 */
+    /* ID样式 */
     .item-id {
-      display: inline-block;
-      background: var(--ion-color-primary);
-      color: white;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 0.85rem;
+      color: var(--ion-color-primary);
       font-weight: 700;
       margin-right: 8px;
-      box-shadow: 0 2px 4px rgba(var(--ion-color-primary-rgb), 0.2);
     }
   }
   
@@ -64,18 +82,6 @@ ion-label {
 }
 
 /* 徽章样式 */
-ion-badge {
-  margin-left: 6px;
-  
-  /* 特色商品徽章 */
-  &[slot="end"] {
-    --padding-start: 8px;
-    --padding-end: 8px;
-    font-weight: 600;
-  }
-}
-
-/* 库存状态徽章 */
 .status-badge {
   font-size: 0.8rem;
   padding: 4px 8px;
@@ -90,21 +96,23 @@ ion-badge {
   border-top: 1px dashed var(--ion-color-light);
 }
 
-/* 加载更多样式 */
-ion-infinite-scroll {
-  margin-bottom: 16px;
+/* 特色商品徽章 */
+ion-badge[slot="end"] {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  font-weight: 600;
 }
 
 /* 响应式调整 */
 @media (max-width: 576px) {
+  ion-item {
+    --padding-start: 12px;
+    --padding-end: 12px;
+  }
+  
   ion-label {
     h2 {
       font-size: 1rem;
-      
-      .item-id {
-        font-size: 0.75rem;
-        padding: 1px 6px;
-      }
     }
     
     p {

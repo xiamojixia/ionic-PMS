@@ -14,15 +14,22 @@ interface InventoryItem {
   special_note?: string;
 }
 
+interface CategoryGroup {
+  category: string;
+  items: InventoryItem[];
+  collapsed: boolean;
+}
+
 @Component({
   selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss'],
+  templateUrl: './tab1.page.html',
+  styleUrls: ['./tab1.page.scss'],
   standalone: false
 })
 export class Tab1Page implements OnInit {
   allItems: InventoryItem[] = [];
   filteredItems: InventoryItem[] = [];
+  categoryGroups: CategoryGroup[] = [];
   searchTerm: string = '';
   isLoading = false;
   private apiUrl = 'https://prog2005.it.scu.edu.au/ArtGalley';
@@ -36,75 +43,84 @@ export class Tab1Page implements OnInit {
     this.loadItems();
   }
 
-  loadItems() {
+  async loadItems() {
     this.isLoading = true;
-    this.http.get<InventoryItem[]>(this.apiUrl).subscribe({
-      next: (items) => {
-        // 过滤掉空名称的项目（根据你的数据中有空名称的项目）
-        this.allItems = items.filter(item => item.item_name && item.item_name.trim() !== '');
-        this.filteredItems = [...this.allItems];
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Error loading items:', err);
-        this.isLoading = false;
-        this.presentAlert('Error', 'Failed to load inventory items');
-      }
-    });
+    try {
+      const items = await this.http.get<InventoryItem[]>(this.apiUrl).toPromise();
+      this.allItems = items?.filter(item => item.item_name && item.item_name.trim() !== '') || [];
+      this.filteredItems = [...this.allItems];
+      this.groupItemsByCategory();
+    } catch (err) {
+      console.error('Error loading items:', err);
+      await this.showAlert('Error', 'Failed to load inventory items');
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  groupItemsByCategory() {
+    const categories = new Set(this.filteredItems.map(item => item.category));
+    this.categoryGroups = Array.from(categories).map(category => ({
+      category,
+      items: this.filteredItems.filter(item => item.category === category),
+      collapsed: false
+    })).sort((a, b) => a.category.localeCompare(b.category));
+  }
+
+  toggleCategory(category: string) {
+    const group = this.categoryGroups.find(g => g.category === category);
+    if (group) {
+      group.collapsed = !group.collapsed;
+    }
+  }
+
+  collapseAll() {
+    this.categoryGroups.forEach(group => group.collapsed = true);
+  }
+
+  expandAll() {
+    this.categoryGroups.forEach(group => group.collapsed = false);
   }
 
   searchItems() {
     if (!this.searchTerm) {
       this.filteredItems = [...this.allItems];
-      return;
+    } else {
+      this.filteredItems = this.allItems.filter(item => 
+        item.item_name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
     }
-
-    this.filteredItems = this.allItems.filter(item => 
-      item.item_name.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+    this.groupItemsByCategory();
   }
 
   refreshItems(event: any) {
-    this.loadItems();
-    setTimeout(() => {
+    this.loadItems().then(() => {
       event.target.complete();
-    }, 1000);
+    });
   }
 
   getStatusColor(status: string): string {
-    switch(status) {
-      case 'In stock': return 'success';
-      case 'Low stock': return 'warning';
-      case 'Out of stock': return 'danger';
+    switch(status.toLowerCase()) {
+      case 'in stock': return 'success';
+      case 'low stock': return 'warning';
+      case 'out of stock': return 'danger';
       default: return 'primary';
     }
   }
 
   async showHelp() {
-    const alert = await this.alertController.create({
-      header: 'Help',
-      message: `
-        <p>This page displays all inventory items. Use the search bar to filter items by name. Pull down to refresh the list.</p>
-        <p><strong>Stock Status Colors:</strong></p>
-        <ul>
-          <li><ion-badge color="success">In stock</ion-badge> - Green</li>
-          <li><ion-badge color="warning">Low stock</ion-badge> - Yellow</li>
-          <li><ion-badge color="danger">Out of stock</ion-badge> - Red</li>
-        </ul>
-      `,
-      buttons: ['OK']
-    });
-
-    await alert.present();
+    await this.showAlert(
+      'Help',
+      'This page displays inventory items grouped by category. Click on category headers to expand/collapse.'
+    );
   }
 
-  async presentAlert(header: string, message: string) {
+  async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header,
       message,
       buttons: ['OK']
     });
-
     await alert.present();
   }
 }
