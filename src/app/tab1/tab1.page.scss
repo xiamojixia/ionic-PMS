@@ -1,0 +1,114 @@
+/* 基础列表样式 */
+ion-list {
+  background: transparent;
+  padding: 0;
+}
+
+/* 列表项样式 */
+ion-item {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --inner-padding-end: 8px;
+  --min-height: 80px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  background: var(--ion-item-background, var(--ion-background-color, #fff));
+  
+  /* 选中状态 */
+  &:active {
+    background: rgba(var(--ion-color-primary-rgb), 0.08);
+  }
+}
+
+/* 内容标签样式 */
+ion-label {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  
+  /* 标题区域 - 特别突出ID */
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    
+    /* ID样式 - 特别突出 */
+    .item-id {
+      display: inline-block;
+      background: var(--ion-color-primary);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-right: 8px;
+      box-shadow: 0 2px 4px rgba(var(--ion-color-primary-rgb), 0.2);
+    }
+  }
+  
+  /* 详细信息样式 */
+  p {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+    color: var(--ion-color-medium);
+    
+    /* 供应商名称样式 */
+    &.supplier {
+      color: var(--ion-color-dark);
+      font-weight: 500;
+    }
+  }
+}
+
+/* 徽章样式 */
+ion-badge {
+  margin-left: 6px;
+  
+  /* 特色商品徽章 */
+  &[slot="end"] {
+    --padding-start: 8px;
+    --padding-end: 8px;
+    font-weight: 600;
+  }
+}
+
+/* 库存状态徽章 */
+.status-badge {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+}
+
+/* 特殊备注样式 */
+.special-note {
+  font-style: italic;
+  color: var(--ion-color-tertiary);
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--ion-color-light);
+}
+
+/* 加载更多样式 */
+ion-infinite-scroll {
+  margin-bottom: 16px;
+}
+
+/* 响应式调整 */
+@media (max-width: 576px) {
+  ion-label {
+    h2 {
+      font-size: 1rem;
+      
+      .item-id {
+        font-size: 0.75rem;
+        padding: 1px 6px;
+      }
+    }
+    
+    p {
+      font-size: 0.85rem;
+    }
+  }
+}

@@ -1,17 +1,42 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <ion-title>Inventory List</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="showHelp()">
+        <ion-icon slot="icon-only" name="help-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-searchbar 
+    [(ngModel)]="searchTerm" 
+    (ionChange)="searchItems()" 
+    placeholder="Search by name">
+  </ion-searchbar>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-list>
+    <ion-item *ngFor="let item of filteredItems">
+      <ion-label>
+        <h2><span class="id">ID: {{ item.item_id }}</span> - {{ item.item_name }}</h2>
+        <p>Category: {{ item.category }}</p>
+        <p>Quantity: {{ item.quantity }} | Price: ${{ item.price }}</p>
+        <p>Supplier: {{ item.supplier_name }}</p>
+        <p>Status: 
+          <ion-badge [color]="getStatusColor(item.stock_status)">
+            {{ item.stock_status }}
+          </ion-badge>
+        </p>
+        <p *ngIf="item.special_note">Note: {{ item.special_note }}</p>
+      </ion-label>
+      <ion-badge slot="end" color="primary" *ngIf="item.featured_item === 1">
+        Featured
+      </ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-refresher slot="fixed" (ionRefresh)="refreshItems($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 </ion-content>
