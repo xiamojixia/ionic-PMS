@@ -77,24 +77,9 @@ throw new Error('Method not implemented.');
 
   async showHelp() {
     const alert = await this.alertController.create({
-      header: '详细操作指南',
-      message: `
-      ━━━━━ 基础操作 ━━━━━
-      🔹 查看项目：点击列表中任意项目
-      🔹 编辑项目：左滑项目 → 点击 ✏️ 图标 → 修改后保存
-      🔹 删除项目：左滑项目 → 点击 🗑️ 图标（Laptop不可删除）
-
-      ━━━━━ 页面操作 ━━━━━
-      🔹 手动刷新：点击右上角 ⟳ 图标
-      🔹 打开帮助：点击右上角 ❓ 图标
-
-      ━━━━━ 重要限制 ━━━━━
-      🔸 删除保护：项目名称为"Laptop"时禁止删除
-      🔸 数字验证：价格/库存必须 ≥ 0
-      🔸 必填字段：项目名称不能为空
-      `,
-      buttons: ['明白'],
-      cssClass: 'help-alert'
+      header: '操作指南',
+      message: '您可以通过点击项目查看详细信息；左滑项目后，点击铅笔图标✏️进行编辑，点击垃圾桶图标🗑️删除项目（Laptop不可删除）；需要刷新数据时请点击右上角🔄图标；请注意：所有数字必须≥0，项目名称不能为空。',
+      buttons: ['知道了']
     });
     await alert.present();
   }
