@@ -49,3 +49,55 @@ ion-card {
     margin-bottom: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
+
+
+
+  /* 帮助弹窗全局样式 */
+.help-alert {
+  --max-width: 90%;
+  --width: 90%;
+
+  .alert-wrapper {
+    max-width: 100% !important;
+  }
+
+  .help-content {
+    h4 {
+      color: var(--ion-color-primary);
+      margin: 0 0 10px 0;
+      font-size: 1.1em;
+    }
+
+    .help-list {
+      padding-left: 20px;
+      margin: 0;
+
+      li {
+        margin-bottom: 8px;
+        line-height: 1.4;
+      }
+    }
+
+    .sublist {
+      padding-left: 25px;
+      margin: 5px 0;
+      list-style-type: none;
+
+      li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+
+        ion-icon {
+          margin-right: 8px;
+          font-size: 1.1em;
+          color: var(--ion-color-medium);
+          min-width: 20px;
+        }
+      }
+    }
+  }
+}
+.alert-message {
+  white-space: pre-line;
+}

@@ -2,6 +2,10 @@
   <ion-toolbar>
     <ion-title>库存管理系统</ion-title>
     <ion-buttons slot="end">
+      <!-- 新增帮助按钮 -->
+      <ion-button (click)="showHelp()">
+        <ion-icon slot="icon-only" name="help-circle"></ion-icon>
+      </ion-button>
       <ion-button (click)="loadInventory()">
         <ion-icon slot="icon-only" name="refresh"></ion-icon>
       </ion-button>
