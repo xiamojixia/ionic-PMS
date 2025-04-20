@@ -66,6 +66,17 @@ export class Tab1Page implements OnInit {
       collapsed: false
     })).sort((a, b) => a.category.localeCompare(b.category));
   }
+  
+  getCategoryColor(category: string): string {
+	const colorMap: {[key: string]: string} = {
+		'Electronics': 'primary',
+		'Furniture': 'secondary',
+		'Clothing': 'tertiary',
+		'Tools': 'success',
+		'Miscellaneous': 'warning'
+	};
+	return colorMap[category] || 'medium';
+  }
 
   toggleCategory(category: string) {
     const group = this.categoryGroups.find(g => g.category === category);

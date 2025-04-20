@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Inventory by Category</ion-title>
+    <ion-title>Inventory Manager</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="collapseAll()" title="Collapse All">
         <ion-icon slot="icon-only" name="chevron-up-outline"></ion-icon>
@@ -20,7 +20,7 @@
     <ion-searchbar 
       [(ngModel)]="searchTerm" 
       (ionChange)="onSearchChange()"
-      placeholder="Search By Item Name"
+      placeholder="Search by Item Name"
       class="custom-searchbar">
     </ion-searchbar>
     <ion-button (click)="searchItems()" class="search-button">
@@ -28,56 +28,58 @@
     </ion-button>
   </div>
 
-	<ion-list>
-		<div *ngIf="filteredItems.length === 0 && searchTerm" class="no-results">
-		<ion-icon name="search-outline"></ion-icon>
-		<h3>No items found</h3>
-		<p>No inventory items match your search for "{{searchTerm}}"</p>
-		<ion-button fill="clear" (click)="clearSearch()">
-		Clear search
-		</ion-button>
-	</div>
+  <ion-list>
+    <div *ngIf="filteredItems.length === 0 && searchTerm" class="no-results">
+      <ion-icon name="search-outline"></ion-icon>
+      <h3>No items found</h3>
+      <p>No inventory items match your search for "{{searchTerm}}"</p>
+      <ion-button fill="clear" (click)="clearSearch()">
+        Clear search
+      </ion-button>
+    </div>
 
-  <!-- 使用ng-container处理条件渲染 -->
-		<ng-container *ngIf="filteredItems.length > 0">
-			<ion-item-group *ngFor="let group of categoryGroups">
-			<ion-item-divider (click)="toggleCategory(group.category)">
-				<ion-icon 
-					[name]="group.collapsed ? 'chevron-forward' : 'chevron-down'" slot="start">
-				</ion-icon>
-				<ion-label>
-					{{ group.category }}
-					<ion-badge color="light">{{ group.items.length }} items</ion-badge>
-				</ion-label>
-			</ion-item-divider>
+    <ng-container *ngIf="filteredItems.length > 0">
+      <ion-item-group *ngFor="let group of categoryGroups">
+        <ion-item-divider (click)="toggleCategory(group.category)">
+          <ion-icon 
+            [name]="group.collapsed ? 'chevron-forward' : 'chevron-down'" 
+            slot="start"></ion-icon>
+          <ion-label>
+            {{ group.category }}
+            <ion-badge color="light">{{ group.items.length }} items</ion-badge>
+          </ion-label>
+        </ion-item-divider>
 
-			<div [class.collapsed]="group.collapsed">
-				<ion-item *ngFor="let item of group.items" detail>
-				<ion-label>
-					<h2><span class="item-id">#{{ item.item_id }}</span> {{ item.item_name }}</h2>
-					<p class="supplier">Supplier: {{ item.supplier_name }}</p>
-					<p>Quantity: {{ item.quantity }} | Price: ${{ item.price }}</p>
-					<p>Status: 
-						<ion-badge class="status-badge" [color]="getStatusColor(item.stock_status)">
-							{{ item.stock_status }}
-						</ion-badge>
-					</p>
-					<p class="special-note" *ngIf="item.special_note">Note: {{ item.special_note }}</p>
-				</ion-label>
-				<ion-badge slot="end" color="primary" *ngIf="item.featured_item === 1">
-					Featured
-				</ion-badge>
-				</ion-item>
-			</div>
-			</ion-item-group>
-		</ng-container>
+        <div [class.collapsed]="group.collapsed">
+          <ion-item 
+            *ngFor="let item of group.items" 
+            detail
+            [style.--border-left-color]="'var(--ion-color-' + getCategoryColor(item.category) + ')'">
+            <ion-label>
+              <h2><span class="item-id">#{{ item.item_id }}</span> {{ item.item_name }}</h2>
+              <p class="supplier">Supplier: {{ item.supplier_name }}</p>
+              <p>Quantity: {{ item.quantity }} | Price: ${{ item.price }}</p>
+              <p>Status: 
+                <ion-badge class="status-badge" [color]="getStatusColor(item.stock_status)">
+                  {{ item.stock_status }}
+                </ion-badge>
+              </p>
+              <p class="special-note" *ngIf="item.special_note">Note: {{ item.special_note }}</p>
+            </ion-label>
+            <ion-badge slot="end" color="primary" *ngIf="item.featured_item === 1">
+              Featured
+            </ion-badge>
+          </ion-item>
+        </div>
+      </ion-item-group>
+    </ng-container>
 
-		<div *ngIf="allItems.length === 0 && !isLoading" class="no-results">
-			<ion-icon name="alert-circle-outline"></ion-icon>
-			<h3>No inventory items</h3>
-			<p>There are currently no items in the inventory</p>
-		</div>
-	</ion-list>
+    <div *ngIf="allItems.length === 0 && !isLoading" class="no-results">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <h3>No inventory items</h3>
+      <p>There are currently no items in the inventory</p>
+    </div>
+  </ion-list>
 
   <ion-refresher slot="fixed" (ionRefresh)="refreshItems($event)">
     <ion-refresher-content></ion-refresher-content>

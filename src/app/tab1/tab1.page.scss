@@ -1,3 +1,4 @@
+
 .search-container {
   display: flex;
   align-items: center;
@@ -6,37 +7,20 @@
   border-bottom: 1px solid var(--ion-color-light-shade);
 }
 
-/* 自定义搜索栏样式 - 方形 */
 .custom-searchbar {
   flex: 1;
   padding: 0;
   margin-right: 8px;
   background: var(--ion-color-light);
   border: 2px solid var(--ion-color-primary);
-  border-radius: 0; /* 方形设计 */
-  box-shadow: none; /* 移除阴影 */
-
-  .searchbar-input-container {
-    border-radius: 0; /* 方形设计 */
-  }
-
-  .searchbar-input {
-    padding-left: 16px;
-    padding-right: 16px;
-    background: var(--ion-color-light);
-  }
+  border-radius: 0;
 }
 
-/* 搜索按钮样式 */
 .search-button {
-  --border-radius: 24px;
+  --border-radius: 0;
   --padding-start: 12px;
   --padding-end: 12px;
   --background: var(--ion-color-primary);
-  --background-activated: var(--ion-color-primary-shade);
-  --background-focused: var(--ion-color-primary-shade);
-  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
   height: 48px;
   width: 48px;
 }
@@ -67,13 +51,11 @@
   }
 }
 
-/* 基础列表样式 */
 ion-list {
   background: transparent;
   padding: 0;
 }
 
-/* 分类标题样式 */
 ion-item-divider {
   --background: var(--ion-color-light);
   --color: var(--ion-color-dark);
@@ -94,32 +76,27 @@ ion-item-divider {
   }
 }
 
-/* 可折叠内容区域 */
 .collapsed {
   display: none;
 }
 
-/* 列表项样式 */
 ion-item {
   --padding-start: 16px;
   --padding-end: 16px;
   --inner-padding-end: 8px;
   --min-height: 88px;
   margin-bottom: 4px;
-  border-left: 4px solid var(--ion-color-primary);
+  border-left: 4px solid var(--border-left-color, var(--ion-color-primary));
   
-  /* 选中状态 */
   &:active {
     --background: rgba(var(--ion-color-primary-rgb), 0.08);
   }
 }
 
-/* 内容标签样式 */
 ion-label {
   margin-top: 12px;
   margin-bottom: 12px;
   
-  /* 标题区域 */
   h2 {
     font-size: 1.1rem;
     font-weight: 600;
@@ -127,7 +104,6 @@ ion-label {
     display: flex;
     align-items: center;
     
-    /* ID样式 */
     .item-id {
       color: var(--ion-color-primary);
       font-weight: 700;
@@ -135,14 +111,12 @@ ion-label {
     }
   }
   
-  /* 详细信息样式 */
   p {
     margin-top: 4px;
     margin-bottom: 4px;
     font-size: 0.9rem;
     color: var(--ion-color-medium);
     
-    /* 供应商名称样式 */
     &.supplier {
       color: var(--ion-color-dark);
       font-weight: 500;
@@ -150,13 +124,11 @@ ion-label {
   }
 }
 
-/* 徽章样式 */
 .status-badge {
   font-size: 0.8rem;
   padding: 4px 8px;
 }
 
-/* 特殊备注样式 */
 .special-note {
   font-style: italic;
   color: var(--ion-color-tertiary);
@@ -165,14 +137,12 @@ ion-label {
   border-top: 1px dashed var(--ion-color-light);
 }
 
-/* 特色商品徽章 */
 ion-badge[slot="end"] {
   --padding-start: 8px;
   --padding-end: 8px;
   font-weight: 600;
 }
 
-/* 响应式调整 */
 @media (max-width: 576px) {
   ion-item {
     --padding-start: 12px;
