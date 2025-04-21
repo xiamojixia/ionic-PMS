@@ -6,6 +6,8 @@ import { AddPage } from './add.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { AddPageRoutingModule } from './add-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -13,7 +15,9 @@ import { AddPageRoutingModule } from './add-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    AddPageRoutingModule
+    AddPageRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   declarations: [AddPage]
 })
