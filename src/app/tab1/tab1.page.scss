@@ -1,4 +1,4 @@
-
+// Styles for the search container
 .search-container {
   display: flex;
   align-items: center;
@@ -7,6 +7,7 @@
   border-bottom: 1px solid var(--ion-color-light-shade);
 }
 
+// Styles for the custom search bar
 .custom-searchbar {
   flex: 1;
   padding: 0;
@@ -16,6 +17,7 @@
   border-radius: 0;
 }
 
+// Styles for the search button
 .search-button {
   --border-radius: 0;
   --padding-start: 12px;
@@ -25,6 +27,7 @@
   width: 48px;
 }
 
+// Styles for the no results message
 .no-results {
   text-align: center;
   padding: 40px 20px;
@@ -51,11 +54,13 @@
   }
 }
 
+// Styles for the ion list
 ion-list {
   background: transparent;
   padding: 0;
 }
 
+// Styles for the ion item divider
 ion-item-divider {
   --background: var(--ion-color-light);
   --color: var(--ion-color-dark);
@@ -76,10 +81,12 @@ ion-item-divider {
   }
 }
 
+// Styles for the collapsed state
 .collapsed {
   display: none;
 }
 
+// Styles for the ion item
 ion-item {
   --padding-start: 16px;
   --padding-end: 16px;
@@ -93,6 +100,7 @@ ion-item {
   }
 }
 
+// Styles for the ion label
 ion-label {
   margin-top: 12px;
   margin-bottom: 12px;
@@ -124,11 +132,13 @@ ion-label {
   }
 }
 
+// Styles for the status badge
 .status-badge {
   font-size: 0.8rem;
   padding: 4px 8px;
 }
 
+// Styles for the special note
 .special-note {
   font-style: italic;
   color: var(--ion-color-tertiary);
@@ -137,12 +147,14 @@ ion-label {
   border-top: 1px dashed var(--ion-color-light);
 }
 
+// Styles for the ion badge in the end slot
 ion-badge[slot="end"] {
   --padding-start: 8px;
   --padding-end: 8px;
   font-weight: 600;
 }
 
+// Media query for small screens
 @media (max-width: 576px) {
   ion-item {
     --padding-start: 12px;
