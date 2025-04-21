@@ -3,8 +3,10 @@
 		<ion-title>Add Item</ion-title>
 		<ion-buttons slot="end">
 			<ion-button (click)="showHelp()">
-			  	<ion-icon name="help-circle-outline"></ion-icon>
-			  	<ion-label>Help</ion-label>
+			  	<ion-icon slot="icon-only" name="help-circle"></ion-icon>
+			</ion-button>
+			<ion-button (click)="loadFeaturedItems()">
+			  	<ion-icon slot="icon-only" name="refresh"></ion-icon>
 			</ion-button>
 		</ion-buttons>
 	</ion-toolbar>

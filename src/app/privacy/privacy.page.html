@@ -1,18 +1,78 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-title>
-        Privacy
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
+	<ion-toolbar>
+		<ion-title>
+			Privacy
+		</ion-title>
+		<ion-buttons slot="end">
+			<ion-button (click)="showHelp()">
+			  	<ion-icon slot="icon-only" name="help-circle"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
   
-  <ion-content [fullscreen]="true">
-    <ion-header collapse="condense">
-      <ion-toolbar>
-        <ion-title size="large">Privacy</ion-title>
-      </ion-toolbar>
-    </ion-header>
+<ion-content class="ion-padding">
+    <h2>Collection of Personal Information</h2>
+    <p>
+      	We highly value your privacy. When using this application, we may collect the following types of personal information:
+    </p>
+    <ul>
+      	<li><strong>Device Information:</strong> We collect information related to your device, including device model, IP address, etc.</li>
+      	<li><strong>Usage Data:</strong> We collect logs of your application usage, including access times, feature usage frequency, click behavior, etc.</li>
+    </ul>
+    
+    <h2>How We Use Your Information</h2>
+    <p>The personal information we collect will be used for the following purposes:</p>
+    <ul>
+      	<li><strong>Providing Personalized Services:</strong> We customize your experience based on your needs and preferences.</li>
+      	<li><strong>Improving Application Features:</strong> By analyzing usage data, we improve our application features and user experience.</li>
+    </ul>
   
-    <app-explore-container name="Privacy page"></app-explore-container>
-  </ion-content>
+    <h2>Storage and Protection of Information</h2>
+    <p>We take the following measures to ensure the security of your information:</p>
+    <ul>
+		<li><strong>Data Storage:</strong> Your personal information is securely stored on our servers and is accessible only to authorized personnel.</li>
+		<li><strong>Encryption Protection:</strong> We use industry-standard encryption technology to ensure the security of data during transmission and storage.</li>
+		<li><strong>Access Control:</strong> We implement strict access control policies to ensure that only authorized personnel can access your personal information.</li>
+    </ul>
+    
+    <h2>Data Sharing and Disclosure</h2>
+    <p>We may share your data under the following circumstances:</p>
+    <ul>
+		<li><strong>Third-Party Service Providers:</strong> To provide you with services, we may collaborate with third parties (e.g., payment processors, logistics companies, etc.).</li>
+		<li><strong>Legal Requirements:</strong> We may disclose your information as required by law, such as in response to court subpoenas, legal proceedings, etc.</li>
+    </ul>
   
+    <h2>User Rights</h2>
+    <p>You have the following rights:</p>
+    <ul>
+		<li><strong>Right to Access:</strong> You can request to view the personal information we have collected about you at any time.</li>
+		<li><strong>Right to Modify:</strong> You can update or modify your personal information at any time.</li>
+		<li><strong>Right to Delete:</strong> You can request the deletion of your account information or unsubscribe from services.</li>
+		<li><strong>Right to Withdraw Consent:</strong> If you previously consented to our privacy policy or data collection, you can withdraw your consent at any time.</li>
+    </ul>
+  
+    <h2>Data Retention</h2>
+    <p>We retain your personal information as required by business needs or legal regulations. When you no longer use our services, we will take necessary measures to delete or anonymize your data to protect your privacy.</p>
+  
+    <h2>Third-Party Links</h2>
+    <p>This application may contain links to other websites or applications. We are not responsible for the privacy policies and content of these third-party websites or applications. Please review their privacy policies when visiting third-party websites.</p>
+  
+    <h2>Security Measures</h2>
+    <p>We take the following measures to ensure the security of your data:</p>
+    <ul>
+		<li><strong>Data Encryption:</strong> We use advanced encryption technology to protect your data during transmission and storage.</li>
+		<li><strong>Regular Security Audits:</strong> We conduct regular security audits and vulnerability assessments to ensure the security of the application.</li>
+		<li><strong>Access Control:</strong> Only authorized personnel are allowed to access your personal information.</li>
+    </ul>
+    
+    <h2>Updates to the Privacy Policy</h2>
+    <p>We may update the privacy policy from time to time. Updated privacy policies will be communicated to you via in-app notifications or emails. After the update takes effect, all new data collection and usage will follow the updated privacy policy.</p>
+  
+    <h2>Contact Us</h2>
+    <p>If you have any questions about our privacy policy or data processing, or need to exercise your privacy rights, please contact us through the following methods:</p>
+    <ul>
+      	<li><strong>Customer Service Phone:</strong> 123-456-7890</li>
+    </ul>
+</ion-content>
+

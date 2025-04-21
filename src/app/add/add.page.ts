@@ -45,14 +45,14 @@ export class AddPage {
 
 	loadFeaturedItems() {
 		this.http.get<InventoryItem[]>(`${this.apiUrl}`).subscribe({
-		  next: (items) => {
-			this.featuredItems = items.filter(item => item.featured_item === 1);
-		  },
-		  error: () => {
-			console.error('Unable to load Featured Products');
-		  }
+			next: (items) => {
+				this.featuredItems = items.filter(item => item.featured_item === 1);
+			},
+			error: () => {
+				console.error('Unable to load Featured Products');
+			}
 		});
-	  }
+	}
 
 	onSubmit() {
 		if (!this.isFormValid()) {
@@ -96,12 +96,12 @@ export class AddPage {
 
 	isFormValid(): boolean {
 		return (
-		!!this.itemName &&
-		!!this.supplierName &&
-		this.quantity >= 0 &&
-		this.price >= 0 &&
-		!!this.stockStatus &&
-		!!this.category
+			!!this.itemName &&
+			!!this.supplierName &&
+			this.quantity >= 0 &&
+			this.price >= 0 &&
+			!!this.stockStatus &&
+			!!this.category
 		);
 	}
 
