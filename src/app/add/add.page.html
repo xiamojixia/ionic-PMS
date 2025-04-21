@@ -1,0 +1,85 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>Add Item</ion-title>
+		<ion-buttons slot="end">
+			<ion-button (click)="showHelp()">
+			  	<ion-icon name="help-circle-outline"></ion-icon>
+			  	<ion-label>Help</ion-label>
+			</ion-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+	<form (ngSubmit)="onSubmit()">
+		<ion-item>
+			<ion-label position="floating">ItemName</ion-label>
+			<ion-input [(ngModel)]="itemName" name="itemName" required></ion-input>
+		</ion-item>
+
+		<ion-item>
+			<ion-label position="floating">Supplier Name</ion-label>
+			<ion-input [(ngModel)]="supplierName" name="supplierName" required></ion-input>
+		</ion-item>
+
+		<ion-item>
+			<ion-label position="floating">Quantity</ion-label>
+			<ion-input [(ngModel)]="quantity" name="quantity" type="number" required></ion-input>
+		</ion-item>
+
+		<ion-item>
+			<ion-label position="floating">Price</ion-label>
+			<ion-input [(ngModel)]="price" name="price" type="number" required></ion-input>
+		</ion-item>
+
+		<ion-item>
+			<ion-label position="floating">Special Note</ion-label>
+			<ion-input [(ngModel)]="specialNote" name="specialNote"></ion-input>
+		</ion-item>
+
+		<ion-item>
+			<ion-label>Category</ion-label>
+			<ion-select [(ngModel)]="category" name="category" required>
+				<ion-select-option value="Electronics">Electronics</ion-select-option>
+				<ion-select-option value="Furniture">Furniture</ion-select-option>
+				<ion-select-option value="Clothing">Clothing</ion-select-option>
+				<ion-select-option value="Tools">Tools</ion-select-option>
+				<ion-select-option value="Miscellaneous">Miscellaneous</ion-select-option>
+			</ion-select>
+		</ion-item>
+
+		<ion-item>
+			<ion-label>Stock Status</ion-label>
+			<ion-select [(ngModel)]="stockStatus" name="stockStatus" required>
+				<ion-select-option value="In Stock">In Stock</ion-select-option>
+				<ion-select-option value="Low Stock">Low Stock</ion-select-option>
+				<ion-select-option value="Out of Stock">Out of Stock</ion-select-option>
+			</ion-select>
+		</ion-item>
+
+		<ion-item>
+			<ion-label>Featured Item</ion-label>
+			<ion-toggle [(ngModel)]="featuredItem" name="featuredItem"></ion-toggle>
+		</ion-item>
+
+		<ion-button expand="block" type="submit" [disabled]="!isFormValid()">Submit</ion-button>
+	</form>
+
+	<ion-card>
+		<ion-card-header>
+			<ion-card-title>Featured Item</ion-card-title>
+		</ion-card-header>
+		<ion-card-content>
+			<ion-list>
+				<ion-item *ngFor="let item of featuredItems">
+					<ion-label>          
+						<h2>{{ item.item_name }}</h2>
+						<p>Category: {{ item.category }} | Quantity: {{ item.quantity }}</p>
+						<p>Price: ${{ item.price }} | Stock Status: {{ item.stock_status }}</p>
+						<p *ngIf="item.special_note">Special Note: {{ item.special_note }}</p>
+					</ion-label>
+				</ion-item>
+			</ion-list>
+		</ion-card-content>
+	</ion-card>
+</ion-content>

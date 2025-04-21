@@ -2,10 +2,12 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HelpPage } from './help.page';
+import { AddPage } from './add.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { HelpPageRoutingModule } from './help-routing.module';
+import { AddPageRoutingModule } from './add-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -13,8 +15,10 @@ import { HelpPageRoutingModule } from './help-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    HelpPageRoutingModule
+    AddPageRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  declarations: [HelpPage]
+  declarations: [AddPage]
 })
-export class HelpPageModule {}
+export class AddPageModule {}
