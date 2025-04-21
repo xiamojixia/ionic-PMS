@@ -98,8 +98,8 @@ export class AddPage {
 		return (
 		!!this.itemName &&
 		!!this.supplierName &&
-		this.quantity > 0 &&
-		this.price > 0 &&
+		this.quantity >= 0 &&
+		this.price >= 0 &&
 		!!this.stockStatus &&
 		!!this.category
 		);
