@@ -23,9 +23,9 @@ interface InventoryItem {
   standalone: false,
 })
 export class Tab3Page {
-toggleEdit(_t19: InventoryItem) {
-throw new Error('Method not implemented.');
-}
+  toggleEdit(_t19: InventoryItem) {
+    throw new Error('Method not implemented.');
+  }
   inventoryList: InventoryItem[] = [];
   editingItem: InventoryItem | null = null;
   originalItem: InventoryItem | null = null;
@@ -38,7 +38,6 @@ throw new Error('Method not implemented.');
   ) {
     this.loadInventory();
   }
-
 
   async loadInventory() {
     try {
@@ -68,7 +67,7 @@ throw new Error('Method not implemented.');
       ).toPromise();
 
       Object.assign(this.originalItem!, this.editingItem);
-      this.showAlert('成功', '更新成功');
+      this.showAlert('Success', 'Update successful');
       this.cancelEdit();
     } catch (error) {
       this.handleError(error);
@@ -77,25 +76,25 @@ throw new Error('Method not implemented.');
 
   async showHelp() {
     const alert = await this.alertController.create({
-      header: '操作指南',
-      message: '您可以通过点击项目查看详细信息；左滑项目后，点击铅笔图标✏️进行编辑，点击垃圾桶图标🗑️删除项目（Laptop不可删除）；需要刷新数据时请点击右上角🔄图标；请注意：所有数字必须≥0，项目名称不能为空。',
-      buttons: ['知道了']
+      header: 'User Guide',
+      message: 'Click items to view details; Swipe left to edit (✏️) or delete (🗑️) items (Laptop cannot be deleted); Click 🔄 to refresh; Note: All numbers must be ≥0, item name is required.',
+      buttons: ['OK']
     });
     await alert.present();
   }
 
   async deleteItem(item: InventoryItem) {
     if (item.item_name.toLowerCase() === 'laptop') {
-      this.showAlert('错误', '无法删除 Laptop');
+      this.showAlert('Error', 'Cannot delete Laptop');
       return;
     }
 
     const confirm = await this.alertController.create({
-      header: '确认删除',
-      message: `确定要删除 ${item.item_name} 吗？`,
+      header: 'Confirm Delete',
+      message: `Are you sure you want to delete ${item.item_name}?`,
       buttons: [
-        { text: '取消', role: 'cancel' },
-        { text: '删除', handler: () => this.confirmDelete(item) }
+        { text: 'Cancel', role: 'cancel' },
+        { text: 'Delete', handler: () => this.confirmDelete(item) }
       ]
     });
     await confirm.present();
@@ -105,7 +104,7 @@ throw new Error('Method not implemented.');
     try {
       await this.http.delete(`${API_ENDPOINT}/${item.item_name}`).toPromise();
       this.inventoryList = this.inventoryList.filter(i => i.item_id !== item.item_id);
-      this.showAlert('成功', '删除成功');
+      this.showAlert('Success', 'Deletion successful');
     } catch (error) {
       this.handleError(error);
     }
@@ -116,13 +115,13 @@ throw new Error('Method not implemented.');
 
     const errors = [];
 
-    if (!this.editingItem.item_name) errors.push('项目名称必填');
-    if (this.editingItem.quantity < 0) errors.push('库存不能为负数');
-    if (this.editingItem.price < 0) errors.push('价格不能为负数');
-    if (!this.categories.includes(this.editingItem.category)) errors.push('请选择有效分类');
+    if (!this.editingItem.item_name) errors.push('Item name is required');
+    if (this.editingItem.quantity < 0) errors.push('Stock quantity cannot be negative');
+    if (this.editingItem.price < 0) errors.push('Price cannot be negative');
+    if (!this.categories.includes(this.editingItem.category)) errors.push('Please select a valid category');
 
     if (errors.length > 0) {
-      this.showAlert('表单错误', errors.join('\n'));
+      this.showAlert('Form Error', errors.join('\n'));
       return false;
     }
     return true;
@@ -132,14 +131,14 @@ throw new Error('Method not implemented.');
     const alert = await this.alertController.create({
       header,
       message,
-      buttons: ['确定']
+      buttons: ['OK']
     });
     await alert.present();
   }
 
   private handleError(error: any) {
     console.error(error);
-    const message = error.error?.message || error.message || '系统错误';
-    this.showAlert('错误', message);
+    const message = error.error?.message || error.message || 'System error';
+    this.showAlert('Error', message);
   }
 }
